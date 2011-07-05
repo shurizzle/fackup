@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'fackup/cli'
+
+if Process.uid != 0
+  $stderr.puts "You should run the program as root,"
+  $stderr.puts "files without right permissions will be skipped"
+end
+
+FackUp::CLI.start(ARGV)
