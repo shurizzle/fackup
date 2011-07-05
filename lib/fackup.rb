@@ -22,7 +22,7 @@ require 'fackup/db'
 require 'fackup/image'
 
 module FackUp
-  VERSION = '0.0.1'
+  VERSION = '0.0.1.1'
 
   def self.restore (image)
     FackUp::Image.new(image, 'r', true) {|img|

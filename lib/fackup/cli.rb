@@ -68,7 +68,7 @@ module FackUp
 
     desc 'list [IMAGE]', 'list backup files, if given, list file in image files'
     def list (image=nil)
-      if image and File.esists?(image)
+      if image and File.exists?(image)
         FackUp::Image.new(image, 'r', true) {|img|
           img.each {|file|
             puts file.name
