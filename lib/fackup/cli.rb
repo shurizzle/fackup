@@ -30,14 +30,21 @@ module FackUp
       puts "fackup v#{FackUp::VERSION}"
     end
 
-    desc 'add FILE... [OPTIONS]', 'add file to backup'
+    desc 'add FILE... [OPTIONS]', 'add files to backup'
       method_option :recursive, aliases: '-r', type: :boolean, default: false,
         desc: 'Add files in directories recursively'
     def add (*files)
       files.each {|file|
         if File.directory?(file)
           if options[:recursive]
-            add(Dir["#{file}/*"])
+            Dir[File.join(file, '**', '*')].each {|f|
+              next unless File.file?(f)
+
+              unless DB << f
+                say '* ', :red
+                say "Can't add #{file}, unknown error."
+              end
+            }
           else
             say '* ', :red
             say "#{file} is a directory."
@@ -51,6 +58,19 @@ module FackUp
           say '* ', :red
           say "Can't add #{file}, unknown format."
         end
+      }
+    end
+
+    desc 'delete PATTERN...', 'delete files from backup, it supports wildcards'
+    def delete (*patterns)
+      patterns.map! {|pattern|
+        File.expand_path(pattern)
+      }
+
+      DB.each {|file|
+        patterns.each {|pattern|
+          DB.delete(file) if File.fnmatch?(pattern, file)
+        }
       }
     end
 

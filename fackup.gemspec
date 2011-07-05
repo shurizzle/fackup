@@ -1,6 +1,6 @@
 Gem::Specification.new {|g|
     g.name          = 'fackup'
-    g.version       = '0.0.1'
+    g.version       = '0.0.1.2'
     g.author        = 'shura'
     g.email         = 'shura1991@gmail.com'
     g.homepage      = 'http://github.com/shurizzle/fackup'
